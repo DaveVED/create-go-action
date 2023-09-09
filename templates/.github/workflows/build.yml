@@ -1,0 +1,33 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.21
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+        id: go
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Cache Go dependencies to speed up builds
+      - name: Cache Go modules
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Build
+        run: go build -v .
+
+      - name: Test
+        run: go test ./...
+

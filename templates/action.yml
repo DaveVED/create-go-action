@@ -1,0 +1,13 @@
+name: "Go Container Action Template"
+description: "Get started with Go Container actions"
+author: "Dave Dennis"
+inputs:
+  name:
+    description: "Your Name"
+    default: "Dave Dennis"
+outputs:
+  myName:
+    description: "Output from the action"
+runs:
+  using: "docker"
+  image: "Dockerfile"
